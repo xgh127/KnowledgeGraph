@@ -182,16 +182,16 @@ export const menuItems = [
         children: [
             {
                 key: "gddbj",
-                label: "光伏设备厂商",
+                label: "光电供应商",
                 query:
-                    "MATCH p=(a {name: '光电大部件公司'})-[r1]->(b)-[r2]->(c) RETURN *",
+                    "MATCH p=(a {name: '光伏设备厂商'})-[r1]->(b)-[r2]->(c) RETURN *",
             },
 
             {
                 key: "fddbj",
-                label: "风机大部件厂商",
+                label: "风电供应链",
                 query:
-                    "MATCH p=(a {name: '风电大部件公司'})-[r1]->(b)-[r2]->(c) RETURN *",
+                    "MATCH p=(a {name: '风机大部件厂商'})-[r1]->(b)-[r2]->(c) RETURN *",
             },
         ],
     },
@@ -319,6 +319,16 @@ export const searchTypeToCypher = [
         cypher:
             "MATCH p=(a)-[r1]->(b)-[r2]->(c) WHERE a.name =~ '.*${target}.*' RETURN *",
     },
+    {
+        type: 4,
+        cypher:
+            "MATCH p=(a)-[r1]->(b)-[r2]->(c) WHERE c.name =~ '.*${target}.*' RETURN *",
+    },
+    {
+        type: 5,
+        cypher:
+            "MATCH p=(a)-[r1]->(b)-[r2]->(c)-[r3]->(d)-[r4]->(e) WHERE c.name =~ '.*${target}.*' RETURN *",
+    },
 ];
 export const allRelationships = [
     "供应商",
@@ -388,6 +398,11 @@ export const allRelationships = [
     "9号风机",
 ];
 
+/**
+ * label配置的list
+ * @type {{许继电气: {label: string}, 发电量: {label: string}, 主变压器设备: {label: string}, 箱变厂家: {label: string}, 风机子节点: {label: string}, 变桨轴承厂家: {label: string}, 电池组件厂家: {label: string}, 主齿轮箱厂家: {label: string}, 东方日升新能源: {label: string}, 项目消缺项: {label: string}, 偏航轴承厂家: {label: string}, 光伏发电量: {label: string}, 主机设备: {label: string}, 主机厂家: {label: string}, 正泰新能源: {label: string}, 具体风机故障信息: {label: string}, 五街主机设备: {label: string}, 子风场: {label: string}, 大部件: {label: string}, 中电电气光伏: {label: string}, 风场大部件: {label: string}, 汇流箱厂家: {label: string}, 上能电气: {label: string}, 具体故障风机: {label: string}, 设计施工单位: {label: string}, 黄河上游水电开发西宁分公司: {label: string}, 风机故障: {label: string}, 叶片厂家: {label: string}, 变频器厂家: {label: string}, 浙江乐叶光伏: {label: string}, 电力价格: {label: string}, 辐照计厂家: {label: string}, 逆变器: {label: string}, 红土坡主机设备: {label: string}, 亿晶光电: {label: string}, 新能源政策法规: {label: string}, 箱变测控厂家: {label: string}, 许继集团: {label: string}, 金风科技: {label: string}, 政策信息: {label: string}, 供应商: {label: string}, 北京ABB电气传动系统: {label: string}, 一级节点: {label: string}, 功率预测系统厂家: {label: string}, 风机: {label: string}, 光伏支架厂家: {label: string}, 老青山主机设备: {label: string}, 公司消缺项: {label: string}, 上华新能源无锡: {label: string}, 整体故障信息: {label: string}, 中节能太阳能: {label: string}, 哈电风能: {label: string}, 云南国际项目: {label: string}, 华为技术: {label: string}, 项目运营数据: {label: string}, 上海电气: {label: string}, 风电供应商: {label: string}, 运营故障: {label: string}, 电池组件: {label: string}, 东方电气: {label: string}, 项目节点: {label: string}, 监控系统厂家: {label: string}, 东方日升光伏: {label: string}, 隆基绿能: {label: string}, 项目故障: {label: string}, 设计施工公司: {label: string}, 轮毂厂家: {label: string}, 海润光伏: {label: string}, 发电机厂家: {label: string}, 易事特集团: {label: string}, 晶科能源: {label: string}, 广东易事特电源: {label: string}, 许继风电: {label: string}, 华耀光伏科技: {label: string}, 运营单位名: {label: string}, 通威光伏科技: {label: string}, 气象系统厂家: {label: string}, 中清光伏: {label: string}, 设计施工单位名: {label: string}, 重庆海装: {label: string}, 二级节点: {label: string}, 逆变器厂家: {label: string}, 光电供应商: {label: string}, 远景能源: {label: string}, 逆变器故障: {label: string}, 电力市场: {label: string}, 风机发电量数据: {label: string}, 故障: {label: string}, SVG厂家: {label: string}, 电池汇流箱: {label: string}, 运营情况: {label: string}}}
+ */
+
 export const allLabels =
     {
         SVG厂家: {label: "name"},
@@ -403,7 +418,7 @@ export const allLabels =
         中节能太阳能: {label: "name"},
         主机厂家: {label: "name"},
         主齿轮箱厂家: {label: "name"},
-        二级节点: {label: "name",shape:"dot"},
+        二级节点: {label: "name"},
         云南国际项目: {label: "name"},
         亿晶光电: {label: "name"},
         供应商: {label: "name"},
@@ -464,5 +479,22 @@ export const allLabels =
         风机子节点: {label: "name"},
         风电供应商: {label: "name"},
         黄河上游水电开发西宁分公司: {label: "name"},
-
+        政策信息:{label:"name"},
+        风机故障:{label:"name"},
+        发电量:{label:"name"},
+        主机设备:{label:"name"},
+        主变压器设备:{label:"name"},
+        设计施工单位:{label:"name"},
+        设计施工公司:{label:"name"},
+        子风场:{label:"name"},
+        红土坡主机设备:{label:"name"},
+        五街主机设备:{label:"name"},
+        电池汇流箱:{label:"name"},
+        逆变器:{label:"name"},
+        电池组件:{label:"name"},
+        大部件:{label:"name"},
+        项目运营数据:{label:"name"},
+        逆变器故障:{label:"name"},
+        光伏发电量:{label:"name"},
+        风机:{label:"name"}
     }

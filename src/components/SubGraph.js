@@ -2,7 +2,12 @@ import React, { useEffect, useRef, useState } from "react";
 import Neovis from "neovis.js/dist/neovis.js";
 import {allLabels} from "./Constant";
 
-//这是展示Neo4j图形的组件，它使用了Neovis.js库，它可以将Neo4j图形展示在网页上。
+/**
+ * 这是neo4j子图的组件，和neoGraph组件不同的是它没有绑定节点点击事件
+ * @param props
+ * @returns {JSX.Element}
+ * @constructor
+ */
 const SubGraph = props => {
     //定义一个NeoGraph组件，接收props参数
     const {

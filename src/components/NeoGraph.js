@@ -4,8 +4,13 @@ import Neovis from "neovis.js";
 import InfoDisplay from "./InfoDisplay";
 import { SubGraph } from "./SubGraph";
 import {allLabels} from "./Constant";
-//这是展示Neo4j图形的组件，它使用了Neovis.js库，它可以将Neo4j图形展示在网页上。
 
+/**
+ * 这是展示Neo4j图形的组件，它使用了Neovis.js库，它可以将Neo4j图形展示在网页上。
+ * @param props
+ * @returns {JSX.Element}
+ * @constructor
+ */
 const NeoGraph = props => {
     //定义一个NeoGraph组件，接收props参数
     const {
@@ -16,9 +21,8 @@ const NeoGraph = props => {
         cypherQuery, //cypherQuery 查询语句
     } = props;
 
-    const visRef = useRef(); //创建一个ref对象,用于保存Neo4j对象
-    // useEffect 是一个React hook，它可以让你在函数组件中执行一些有副作用的操作，比如获取数据，设置状态，或者订阅一些事件。
-    const [subGraphCypher, setSubGraphCypher] = useState(null);
+    const visRef = useRef(null); //创建一个ref对象,用于保存Neo4j对象
+    const [subGraphCypher, setSubGraphCypher] = useState(null);// 存储子图的查询语句，用于展示选中节点的子图
     const [selectedNodeInfo, setSelectedNodeInfo] = useState(null); // 存储选中节点的详细信息
 
     useEffect(() => {
@@ -33,7 +37,7 @@ const NeoGraph = props => {
                 visConfig: {
                     nodes: {
                         shape: 'dot', //设置节点形状
-                        size: 20, //设置节点大小
+                        // size: 20, //设置节点大小
                         font: {
                             size: 18,
                             color: "blue",
@@ -59,32 +63,21 @@ const NeoGraph = props => {
                 },
                 //列出所有的label，并设置它们的配置
                 labels: allLabels,
-                arrows: true,
                 initialCypher: cypherQuery,
 
             };
-
+           //创建一个NeoVis实例
             const vis = new Neovis(VisConfig);
-            if (vis) {
-                console.log("NeoVis instance created successfully before render");
-                vis.render();
-
-                console.log("NeoVis instance created successfully");
-            } else {
-                console.log('Neovis instance is undefined');
-            }
+            //渲染NeoVis实例
             vis.render();
-            console.log("pwd = " + neo4jPassword+" user = " + neo4jUser + " uri= " + neo4jUri);
-            // 添加点击节点的事件监听器
+            // 添加点击节点的事件监听器,当点击节点时，设置选中节点的信息，并设置子图的查询语句
             vis.registerOnEvent("clickNode", e => {
                 // e: { nodeId: number; node: Node }
-                console.log(JSON.stringify(e.node.raw.properties));
                 setSelectedNodeInfo(e.node.raw.properties);
                 let name = e.node.raw.properties.name;
-                console.log("name" + name);
                 let query = `MATCH p=(a)-[r]->(b) WHERE a.name='${name}' RETURN *`;
+                //设置子图的查询语句
                 setSubGraphCypher(query);
-
             });
         } catch (e) {
             console.error(e.message);
@@ -94,6 +87,7 @@ const NeoGraph = props => {
 
     return (
         <Layout style={{ minHeight: "100vh" }}>
+            {/* neo4j图形展示区域的侧边栏 */}
             <Layout.Sider
                 width={300}
                 height="100%"
@@ -108,7 +102,6 @@ const NeoGraph = props => {
                 }}
             >
                 {/* 选中节点信息展示区域 */}
-
                 <Card
                     size="large"
                     style={{
@@ -122,9 +115,10 @@ const NeoGraph = props => {
                 >
                     <InfoDisplay
                         style={{ userSelect: "text" }}
-                        selectedInputInfo={selectedNodeInfo}
+                        selectedNodeInfo={selectedNodeInfo}
                     />
                 </Card>
+                {/* 子图展示区域 */}
                 <SubGraph
                     cypherQuery={subGraphCypher}
                     containerId={"id1"}
@@ -133,6 +127,7 @@ const NeoGraph = props => {
                     neo4jPassword={neo4jPassword}
                 />
             </Layout.Sider>
+            {/* 图形展示区域 */}
             <Layout.Content
             >
                 <div
@@ -151,7 +146,12 @@ const NeoGraph = props => {
     );
 };
 
-//这是一个响应式NeoGraph组件，它会根据窗口大小自动调整大小。
+/**
+ * 将NeoGraph组件包装在一个div中，便于布局
+ * @param props
+ * @returns {JSX.Element}
+ * @constructor
+ */
 const ResponsiveNeoGraph = props => {
     const { cypherQuery } = props;
 
