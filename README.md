@@ -1,70 +1,67 @@
-# Getting Started with Create React App
+# Knowledge Graph Visualization Project Based on React+Neovis.js 
+The page is like this.The neovis.js version is 2.1.0,which is the latest version.Since the version 1.4 has some bugs, I recommend you to use the latest version.You can check the package.json file to see the version of all the dependencies.
+![example](screenshots/example.png)
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+## What is this thing?
 
-## Available Scripts
+This repo is based on [react-neovis-example](https://github.com/jackdbd/react-neovis-example).I added some functions to make the graph more user-friendly.All the added features are listed below:
 
-In the project directory, you can run:
+- Add the arrow and let the node display the name of the node.
+- Add a search bar so users can choose different types of nodes and input keywords to search for specific information.![search](screenshots/search-bar.png)
+- Add the function that users can click the node to see the detail of the node.![node-detail](screenshots/node-detail.png)
+- Add the button so users can click to run different cypher queries.
 
-### `npm start`
+## How to use it?
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+As you are new to neo4j, you can follow the steps below to create a neo4j sandbox and run the project.
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+1. create a Neo4j Sandbox on [neo4j.com](https://neo4j.com/sandbox/),
+2. install the project dependencies,
+3. connect to your Neo4j Sandbox.
 
-### `npm test`
+### 1 - Create a Neo4j Sandbox
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+A Neo4j Sandbox is essentially a Docker container with Neo4j installed, and a graph dataset that you can play with. There is nothing to install. It runs on the cloud. A Sandbox will expire in 3 days, but if you want you can extend your project for an additional 7 days (it can be done only once).
 
-### `npm run build`
+Create a Neo4j Sanbox [here](https://neo4j.com/sandbox/).
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+![create-sandbox](screenshots/create-sandbox.png)
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+### 2 - Install project dependencies
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+```sh
+git clone https://github.com/xgh127/KnowledgeGraph.git
+cd KnowledgeGraph
+npm install  # or simply, npm
+```
 
-### `npm run eject`
+### 3 - Connect to your Neo4j Sandbox
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+Find the `Connection details` for your Neo4j Sandbox:
+![connection-details](screenshots/sandbox-credentials.png)
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+Then open the [App component](src/App.js) and replace the following lines with your own credentials:
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+```js
+const NEO4J_URI = "YOUR_NEO4J_BOLT_URL";
+const NEO4J_USER = "YOUR_NEO4J_USERNAME";
+const NEO4J_PASSWORD = "YOUR_NEO4J_PASSWORD";
+```
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+Please neglect my connection details.
 
-## Learn More
+### 4 - Run the project
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+```sh
+npm start
+```
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+The project will be running on `http://localhost:3000/`.
 
-### Code Splitting
+## Other ways to run the project
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+If you have already installed neo4j locally, you can also run the project by replace the corresponding lines in the [App component](src/App.js) with your own credentials.
 
-### Analyzing the Bundle Size
+## Contact me
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+If you have any questions, please feel free to contact me at <EMAIL> which is on my profile.
