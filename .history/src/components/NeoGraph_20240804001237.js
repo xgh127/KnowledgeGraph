@@ -106,7 +106,7 @@ const NeoGraph = props => {
                     size="large"
                     style={{
                         width: "100%",
-                        height: "100%", // 你希望Card的最大高度
+                        height: "40%", // 你希望Card的最大高度
                         overflowY: "auto", // 当内容超过高度时，显示垂直滚动条
                         overflowX: "hidden", // 隐藏水平滚动条
                         boxSizing: "border-box", // 确保padding和border不会增加Card的总宽度
