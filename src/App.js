@@ -4,7 +4,8 @@ import { MyHeader } from "./components/MyHeader";
 import { ResponsiveNeoGraph } from "./components/NeoGraph";
 import "./App.css";
 import { menuItems, searchTypeToCypher } from "./components/Constant";
-const { Search } = Input;
+import GraphView from "./View/GraphView";
+import {DataAnalysisView} from "./View/DataAnalysisView";
 /**
  * 数据库连接信息
  * @type {string}
@@ -28,6 +29,7 @@ function App() {
   );
   //初始化搜索类型
   const [searchType, setSearchType] = useState(0);
+  const [currentView, setCurrentView] = useState('dataAnalysis');
 
   /**
    * 渲染菜单项，递归渲染子菜单
@@ -46,6 +48,7 @@ function App() {
        * 点击菜单项时，设置cypher查询语句，用于渲染图谱
        */
       const handleClick = () => {
+        setCurrentView('graph');
         setCypherQuery(query);
       };
       // 如果有子菜单，递归渲染子菜单
@@ -103,54 +106,24 @@ function App() {
                 // mode="inline"
             >
               {renderMenuItems(menuItems,0)}
+              <Menu.Item  style={{ fontSize: "20px", textAlign: "center" }} onClick={() => {setCurrentView('dataAnalysis')}
+              }>数据分析
+              </Menu.Item>
             </Menu>
           </Layout.Sider>
-          {/* 右侧图谱区域 */}
-          <Layout.Content>
-            <div style={{ display: "flex", justifyContent: "space-between",height: "22px" }}>
-              {/* 搜索栏 */}
-              <Space.Compact style={{ width: "100%",height: "100%" }}>
-                <Select
-                    style={{ width: "25%", textAlign: "center" }}
-                    defaultValue="0"
-                    onChange={handleSearchTypeChange}
-                >
-                  <Select.Option value="0" style={{ textAlign: "center" }}>
-                    按名称搜索下一层节点
-                  </Select.Option>
-                  <Select.Option value="1" style={{ textAlign: "center" }}>
-                    按名称搜索上一层节点
-                  </Select.Option>
-                  <Select.Option value="2" style={{ textAlign: "center" }}>
-                    按名称搜索上下各一层节点
-                  </Select.Option>
-                  <Select.Option value="3" style={{ textAlign: "center" }}>
-                    按名称搜索下两层节点
-                  </Select.Option>
-                  <Select.Option value="4" style={{ textAlign: "center" }}>
-                    按名称搜索上两层节点
-                  </Select.Option>
-                  <Select.Option value="5" style={{ textAlign: "center" }}>
-                    按名称搜索上下各两层节点
-                  </Select.Option>
-                </Select>
-                <Search
-                    placeholder="输入查询关键字"
-                    size={"middle"}
-                    style={{ width: "75%" }}
-                    onSearch={onSearch}
-                />
-              </Space.Compact>
-            </div>
-            {/* 图谱渲染区域 */}
-            <ResponsiveNeoGraph
-                cypherQuery={cypherQuery}
-                containerId={"id0"}
-                neo4jUri={NEO4J_URI}
-                neo4jUser={NEO4J_USER}
-                neo4jPassword={NEO4J_PASSWORD}
-            />
-          </Layout.Content>
+          {currentView === 'graph' && (
+              <GraphView
+                  handleSearchTypeChange={handleSearchTypeChange}
+                  onSearch={onSearch}
+                  cypherQuery={cypherQuery}
+                  NEO4J_URI={NEO4J_URI}
+                  NEO4J_USER={NEO4J_USER}
+                  NEO4J_PASSWORD={NEO4J_PASSWORD}
+              />
+          )}
+          {currentView === 'dataAnalysis' && (
+              <DataAnalysisView/>
+          )}
         </Layout>
       </Layout>
   );

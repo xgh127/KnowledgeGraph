@@ -118,14 +118,6 @@ const NeoGraph = props => {
                         selectedNodeInfo={selectedNodeInfo}
                     />
                 </Card>
-                {/* 子图展示区域 */}
-                {/*<SubGraph*/}
-                {/*    cypherQuery={subGraphCypher}*/}
-                {/*    containerId={"id1"}*/}
-                {/*    neo4jUri={neo4jUri}*/}
-                {/*    neo4jUser={neo4jUser}*/}
-                {/*    neo4jPassword={neo4jPassword}*/}
-                {/*/>*/}
             </Layout.Sider>
             {/* 图形展示区域 */}
             <Layout.Content
