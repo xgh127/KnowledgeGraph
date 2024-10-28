@@ -7,8 +7,17 @@ import FaultTable from "../data/FaultTable";
 import FaultChart from "../data/FaultChart";
 import PowerGenerationBarChart from "../data/PowerGenerationBarChart";
 import PowerGenerationLineChart from "../data/PowerGenerationLineChart";
-import PowerGenerationPieChart from "../data/PowerGenerationPieChart"; // 如果使用 axios
+import PowerGenerationPieChart from "../data/PowerGenerationPieChart";
+import PowerPlantsMap from "../data/AntV7Map";
+import AntVL7Map from "../data/AntV7Map";
+// 如果使用 axios
 
+
+const powerPlants = [
+    { name: "老青山", station_id: "1580452734836948993", latitude: 34.9622, longitude: 113.6597 },
+    { name: "仙人洞", station_id: "1580452797147529217", latitude: 31.2304, longitude: 121.4737 },
+    // ...其他发电厂的数据
+];
 export const DataAnalysisView = () => {
     const [FaultData, setFaultData] = useState([]);
     const [PowerData, setPowerData] = useState([]);
@@ -41,8 +50,8 @@ export const DataAnalysisView = () => {
 
     return (
         <Content>
-            <div style={{ marginLeft: "50px", height: "100%" }}>
-                <Tabs defaultActiveKey="1">
+            <div style={{ marginLeft: "10px", height: "100%" }}>
+                <Tabs defaultActiveKey="1" style={{ height: "10%" }}>
                     <TabPane tab={<><h2>故障数据统计</h2></>} key='1'>
                         <Tabs defaultActiveKey="1">
                             <TabPane tab={<><h3>柱状图</h3></>} key='1'>
@@ -74,6 +83,9 @@ export const DataAnalysisView = () => {
                                 <PowerGenerationPieChart data={PowerData} />
                             </TabPane>
                         </Tabs>
+                    </TabPane>
+                    <TabPane tab={<><h2>供应商分布</h2></>} key='3'>
+                     <AntVL7Map />
                     </TabPane>
                 </Tabs>
             </div>

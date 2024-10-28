@@ -2,7 +2,6 @@ import React, { useEffect, useRef, useState } from "react";
 import { Card, Layout } from "antd";
 import Neovis from "neovis.js";
 import InfoDisplay from "./InfoDisplay";
-import { SubGraph } from "./SubGraph";
 import {allLabels} from "./Constant";
 
 /**
