@@ -65,16 +65,18 @@ const AntVL7Map = () => {
                                 // console.log("省份",e.feature.properties.name);
                                 const provinceName = e.feature.properties.name;
                                 const supplierInfo = suppliers.find(s =>{
-                                    console.log("s.name",s.name);
-                                    console.log("省份provinceName",provinceName);
                                     return s.name === provinceName;
                                 });
-                                console.log("供应商",suppliers);
-                                console.log("供应商信息",supplierInfo);
                                 if (supplierInfo) {
                                     const popup = new Popup()
                                         .setLnglat(e.lngLat)
-                                        .setHTML(`<span>省份: ${provinceName}</span><br><span>供应商: ${supplierInfo.suppliers.join(', ')}</span>`);
+                                        .setHTML(`<span><h2>${provinceName}</h2><br><span>供应商: ${supplierInfo.suppliers.join(', ')}</span>`);
+                                    scene.addPopup(popup);
+                                }else{
+                                  //显示没有供应商
+                                    const popup = new Popup()
+                                        .setLnglat(e.lngLat)
+                                        .setHTML(`<span><h2>${provinceName}</h2> </span><br><span>供应商: 暂无</span>`);
                                     scene.addPopup(popup);
                                 }
                             });
@@ -83,9 +85,9 @@ const AntVL7Map = () => {
                                 scene.removePopup();
                             });
                         });
+
+
                 });
-
-
             // 加载标注数据
             fetch(process.env.PUBLIC_URL + 'assets/labels.json')
                 .then(res => res.json())
@@ -99,9 +101,49 @@ const AntVL7Map = () => {
                                 coordinates: "center"
                             }
                         })
-                        .color("#fff")
+                        .color("suppliers",(d) => {
+                            // 根据供应商数量返回不同的颜色深度
+                            const colorScale = [
+                                '#ffffe5', '#f7fcb9', '#d9f0a3', '#addd8e',
+                                '#78c679', '#41ab5d', '#238443', '#005a32'
+                            ];
+                            console.log("d",d);
+                            const num = d.length;
+                            const colorIndex = Math.min(num-1 , colorScale.length - 1);
+                            return colorScale[colorIndex];
+                        })
+                        .shape("suppliers", (suppliers) => {
+                            return suppliers.length > 0 ? "circle": 0;
+                         })
+                        .size(12)
+
+                        .style({
+                            opacity: 1,
+                            stroke: "#fff",
+                            strokeWidth: 0,
+                            padding: [5, 5],
+                            textAllowOverlap: false
+                        });
+
+                    scene.addLayer(labelLayer);
+                });
+            // 加载标注数据
+            fetch(process.env.PUBLIC_URL + 'assets/labels.json')
+                .then(res => res.json())
+                .then(data => {
+                    const labelLayer = new PointLayer({
+                        zIndex: 5
+                    })
+                        .source(data, {
+                            parser: {
+                                type: "json",
+                                coordinates: "center"
+                            }
+                        })
+                        .color("rgb(12,12,12)")
                         .shape("name", "text")
                         .size(12)
+
                         .style({
                             opacity: 1,
                             stroke: "#fff",
