@@ -8,16 +8,9 @@ import FaultChart from "../data/FaultChart";
 import PowerGenerationBarChart from "../data/PowerGenerationBarChart";
 import PowerGenerationLineChart from "../data/PowerGenerationLineChart";
 import PowerGenerationPieChart from "../data/PowerGenerationPieChart";
-import PowerPlantsMap from "../data/AntV7Map";
 import AntVL7Map from "../data/AntV7Map";
+import FaultLineChart from "../data/FaultLineChart";
 // 如果使用 axios
-
-
-const powerPlants = [
-    { name: "老青山", station_id: "1580452734836948993", latitude: 34.9622, longitude: 113.6597 },
-    { name: "仙人洞", station_id: "1580452797147529217", latitude: 31.2304, longitude: 121.4737 },
-    // ...其他发电厂的数据
-];
 export const DataAnalysisView = () => {
     const [FaultData, setFaultData] = useState([]);
     const [PowerData, setPowerData] = useState([]);
@@ -30,7 +23,6 @@ export const DataAnalysisView = () => {
         const fetchFaultData = async () => {
             try {
                 const response = await axios.get('http://localhost:5000/api/fault_data'); // 调用后端 API
-                console.log(JSON);
                 setFaultData(response.data);
             } catch (error) {
                 console.error('Error fetching data:', error);
@@ -39,6 +31,7 @@ export const DataAnalysisView = () => {
         const fetchPowerData = async () => {
             try {
                 const response = await axios.get('http://localhost:5000/api/power_data'); // 调用后端 API
+                console.log("power data",response.data);
                 setPowerData(response.data);
             } catch (error) {
                 console.error('Error fetching data:', error);
@@ -67,6 +60,9 @@ export const DataAnalysisView = () => {
                                     onYearChange={handleYearChange}
                                     onMonthChange={handleMonthChange}
                                 />
+                            </TabPane>
+                            <TabPane tab={<><h3>折线图</h3></>} key='3'>
+                                <FaultLineChart data={FaultData} />
                             </TabPane>
 
         </Tabs>

@@ -28,10 +28,7 @@ db.connect(err => {
 
 // 创建一个 API 路由
 app.get('/api/fault_data', (req, res) => {
-    const query = "  SELECT name,YEAR(date) AS year,MONTH(date) AS month,COUNT(*) AS fault_count\n" +
-        "    FROM fault_sum\n" +
-        "    GROUP BY station_id,YEAR(date),MONTH(date)\n" +
-        "    ORDER BY  station_id,year,month;"
+    const query = "  SELECT name,YEAR(date) AS year,MONTH(date) AS month,COUNT(*) AS fault_count FROM fault_sum GROUP BY station_id,YEAR(date),MONTH(date) ORDER BY  station_id,year,month;"
     db.query(query, (err, results) => {
         if (err) {
             return res.status(500).json({ error: err.message });
@@ -40,21 +37,7 @@ app.get('/api/fault_data', (req, res) => {
     });
 });
 app.get('/api/power_data', (req, res) => {
-    const query = "SELECT\n" +
-        "  name,\n" +
-        "  YEAR(STR_TO_DATE(date, '%Y-%m-%dT%H:%i:%s.%fZ')) AS year,\n" +
-        "  MONTH(STR_TO_DATE(date, '%Y-%m-%dT%H:%i:%s.%fZ')) AS month,\n" +
-        "  SUM(total_power) AS total_power_generated\n" +
-        "FROM\n" +
-        "  power_sum\n" +
-        "GROUP BY\n" +
-        "  name,\n" +
-        "  year,\n" +
-        "  month\n" +
-        "ORDER BY\n" +
-        "  name,\n" +
-        "  year,\n" +
-        "  month;"
+    const query = "SELECT name,YEAR(STR_TO_DATE(date, '%Y-%m-%dT%H:%i:%s.%fZ')) AS year,MONTH(STR_TO_DATE(date, '%Y-%m-%dT%H:%i:%s.%fZ')) AS month,SUM(total_power) AS total_power_generated FROM power_sum GROUP BY name,  year,  month ORDER BY name, year, month;"
 
     db.query(query, (err, results) => {
         if (err) {

@@ -3,7 +3,6 @@ import { Card, Select } from 'antd';
 import {
     LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer
 } from 'recharts';
-import { v4 as uuidv4 } from 'uuid';
 
 // 为每个站点预定义颜色
 const stationColors = {
@@ -24,28 +23,26 @@ const transformData = (data) => {
     const dataMap = new Map();
 
     data.forEach(item => {
-        const { name, year, month, total_power_generated } = item;
-        const timeKey = `${year}-${String(month).padStart(2, '0')}`;
-
+        const { name, year, month, fault_count } = item;
+        const timeKey = `${year}-${month.toString().padStart(2, '0')}`;
         if (!dataMap.has(name)) {
             dataMap.set(name, []);
         }
-
         dataMap.get(name).push({
             time: timeKey,
-            total_power_generated,
-            color: stationColors[name] // 为每个站点分配颜色
+            fault_count,
         });
     });
 
     return Array.from(dataMap).map(([stationName, stationData]) => ({
         name: stationName,
-        data: stationData
+        data: stationData,
+        color: stationColors[stationName] // 为每个站点分配颜色
     }));
 };
 
-const PowerGenerationLineChart = ({ data }) => {
-    const [selectedStation, setSelectedStation] = useState('五街'); // 默认选中的站点
+const FaultLineChart = ({ data }) => {
+    const [selectedStation, setSelectedStation] = useState('北大村'); // 默认选中的站点
     const transformedData = transformData(data);
 
     const handleStationChange = (value) => {
@@ -57,10 +54,9 @@ const PowerGenerationLineChart = ({ data }) => {
     )?.data || [];
 
     return (
-        <Card title="发电量趋势图">
+        <Card title="故障次数变化趋势">
             <Select
-                style={{ marginBottom: 16, width: '100%' }}
-                placeholder="选择发电厂"
+                style={{ marginBottom: 16 }}
                 defaultValue={selectedStation}
                 onChange={handleStationChange}
             >
@@ -73,24 +69,15 @@ const PowerGenerationLineChart = ({ data }) => {
             <ResponsiveContainer width="100%" height={300}>
                 <LineChart data={selectedData}>
                     <CartesianGrid strokeDasharray="3 3" />
-                    <XAxis dataKey="time" />
-                    <YAxis />
+                    <XAxis dataKey="time" label={{ value: '时间', position: 'bottom', offset: 20 }} />
+                    <YAxis label={{ value: '故障次数', angle: -90, position: 'left', offset: 0 }} />
                     <Tooltip />
                     <Legend />
-                    {selectedData.map((entry, index) => (
-                        <Line
-                            key={uuidv4()}
-                            type="monotone"
-                            dataKey="total_power_generated"
-                            stroke={entry.color}
-                            dot={{ stroke: entry.color }}
-                            activeDot={{ stroke: entry.color }}
-                        />
-                    ))}
+                    <Line type="monotone" dataKey="fault_count" stroke={transformedData.find(item => item.name === selectedStation)?.color || '#8884d8'} />
                 </LineChart>
             </ResponsiveContainer>
         </Card>
     );
 };
 
-export default PowerGenerationLineChart;
+export default FaultLineChart;
