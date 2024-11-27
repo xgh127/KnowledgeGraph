@@ -1,21 +1,18 @@
 import React, { useState } from "react";
-import { Input, Layout, Menu, Select, Space } from "antd";
+import { Layout, Menu } from "antd";
 import { MyHeader } from "./components/MyHeader";
-import { ResponsiveNeoGraph } from "./components/NeoGraph";
 import "./App.css";
 import { menuItems, searchTypeToCypher } from "./components/Constant";
 import GraphView from "./View/GraphView";
 import {DataAnalysisView} from "./View/DataAnalysisView";
+import {ENV_CONFIG} from "./env";
 /**
  * 数据库连接信息
  * @type {string}
  */
-const NEO4J_URI = "bolt://localhost:7687";
-const NEO4J_USER = "neo4j";
-const NEO4J_PASSWORD = "test1234";
-// const NEO4J_URI = "bolt://172.16.20.148:7688";
-// const NEO4J_USER = "neo4j";
-// const NEO4J_PASSWORD = "q1w2e3r4";
+const NEO4J_URI = ENV_CONFIG.NEO4J_URL;
+const NEO4J_USER = ENV_CONFIG.NEO4J_USER
+const NEO4J_PASSWORD =ENV_CONFIG.NEO4J_PASSWORD ;
 
 /**
  * App组件，包含了整个页面的布局，以及图谱的渲染
@@ -29,7 +26,7 @@ function App() {
   );
   //初始化搜索类型
   const [searchType, setSearchType] = useState(0);
-  const [currentView, setCurrentView] = useState('dataAnalysis');
+  const [currentView, setCurrentView] = useState('graph');
 
   /**
    * 渲染菜单项，递归渲染子菜单

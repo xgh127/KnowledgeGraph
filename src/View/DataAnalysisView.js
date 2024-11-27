@@ -10,6 +10,8 @@ import PowerGenerationLineChart from "../data/PowerGenerationLineChart";
 import PowerGenerationPieChart from "../data/PowerGenerationPieChart";
 import AntVL7Map from "../data/AntV7Map";
 import FaultLineChart from "../data/FaultLineChart";
+import {ENV_CONFIG} from "../env";
+
 // 如果使用 axios
 export const DataAnalysisView = () => {
     const [FaultData, setFaultData] = useState([]);
@@ -22,7 +24,7 @@ export const DataAnalysisView = () => {
     useEffect(() => {
         const fetchFaultData = async () => {
             try {
-                const response = await axios.get('http://localhost:5000/api/fault_data'); // 调用后端 API
+                const response = await axios.get(ENV_CONFIG.API_URL+`/api/fault_data`); // 调用后端 API
                 setFaultData(response.data);
             } catch (error) {
                 console.error('Error fetching data:', error);
@@ -30,7 +32,7 @@ export const DataAnalysisView = () => {
         };
         const fetchPowerData = async () => {
             try {
-                const response = await axios.get('http://localhost:5000/api/power_data'); // 调用后端 API
+                const response = await axios.get(ENV_CONFIG.API_URL+'/api/power_data'); // 调用后端 API
                 console.log("power data",response.data);
                 setPowerData(response.data);
             } catch (error) {

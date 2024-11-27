@@ -57,7 +57,7 @@ const AntVL7Map = () => {
 
                     scene.addLayer(chinaPolygonLayer);
                     scene.addLayer(layer2);
-                    fetch(`${process.env.PUBLIC_URL}/assets/suppliers.json`)
+                    fetch(`assets/suppliers.json`)
                         .then(res => res.json())
                         .then(suppliers => {
                             // 为每个省份添加供应商信息
@@ -89,7 +89,8 @@ const AntVL7Map = () => {
 
                 });
             // 加载标注数据
-            fetch(process.env.PUBLIC_URL + 'assets/labels.json')
+            // alert(process.env.PUBLIC_URL);
+            fetch( 'assets/labels.json')
                 .then(res => res.json())
                 .then(data => {
                     const labelLayer = new PointLayer({
@@ -128,7 +129,7 @@ const AntVL7Map = () => {
                     scene.addLayer(labelLayer);
                 });
             // 加载标注数据
-            fetch(process.env.PUBLIC_URL + 'assets/labels.json')
+            fetch( 'assets/labels.json')
                 .then(res => res.json())
                 .then(data => {
                     const labelLayer = new PointLayer({
