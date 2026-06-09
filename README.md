@@ -10,7 +10,7 @@ This repo is based on [react-neovis-example](https://github.com/jackdbd/react-ne
 - Add a search bar so users can choose different types of nodes and input keywords to search for specific information.![search](screenshots/search-bar.png)
 - Add the function that users can click the node to see the detail of the node.![node-detail](screenshots/node-detail.png)
 - Add the button so users can click to run different cypher queries.
-- Add data ayalysis.![data-analysis][screenshots/data.png]
+- Add data ayalysis.![data-analysis][screenshots/data.jpg]
 
 ## How to use it?
 
